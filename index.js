@@ -96,7 +96,7 @@ async function main() {
     if (action === 'exit') process.exit(0);
 
     if (action === 'download') {
-      const booksIndex = JSON.parse(fs.readFileSync(path.join(__dirname, 'src', 'books_index.json'), 'utf8'));
+      const booksIndex = require('./src/books_index.json');
       const { bookSelection } = await inquirer.prompt([
         {
           type: 'list',
@@ -141,7 +141,7 @@ async function main() {
       }
       
       if (fs.existsSync(TOKEN_IMAGES_5ETOOLS_DIR)) {
-        const booksIndex = JSON.parse(fs.readFileSync(path.join(__dirname, 'src', 'books_index.json'), 'utf8'));
+        const booksIndex = require('./src/books_index.json');
         const folders = fs.readdirSync(TOKEN_IMAGES_5ETOOLS_DIR, { withFileTypes: true })
                           .filter(dirent => dirent.isDirectory());
         
