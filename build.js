@@ -43,26 +43,29 @@ function discoverSharpBinaries(platformName) {
   NATIVE_ADDON_DIRS = []; // Reset
   
   // Mapping our internal target names to sharp's runtime platform strings
-  const platformMap = {
-    'windows': 'win32-x64',
-    'linux':   'linux-x64',
-    'mac':     'darwin-x64' // or darwin-arm64
+  // We handle both x64 and arm64 for mac targets if found
+  const platforms = {
+    'windows': ['win32-x64'],
+    'linux':   ['linux-x64'],
+    'mac':     ['darwin-x64', 'darwin-arm64']
   };
 
-  const sharpArch = platformMap[platformName];
-  if (!sharpArch) return;
+  const sharpArches = platforms[platformName];
+  if (!sharpArches) return;
 
-  const pkgBase = path.join(ROOT, 'node_modules', '@img', `sharp-${sharpArch}`, 'lib');
-  const vipsBase = path.join(ROOT, 'node_modules', '@img', `sharp-libvips-${sharpArch}`, 'lib');
+  for (const sharpArch of sharpArches) {
+    const pkgBase = path.join(ROOT, 'node_modules', '@img', `sharp-${sharpArch}`, 'lib');
+    const vipsBase = path.join(ROOT, 'node_modules', '@img', `sharp-libvips-${sharpArch}`, 'lib');
 
-  if (fs.existsSync(pkgBase)) {
-    NATIVE_ADDON_DIRS.push({ src: pkgBase, dest: `sharp/node_modules/@img/sharp-${sharpArch}/node_modules/@img/sharp-${sharpArch}/` });
-    // Also copy directly to where sharp.js expects it relative to index.js
-    NATIVE_ADDON_DIRS.push({ src: pkgBase, dest: `node_modules/@img/sharp-${sharpArch}/lib` });
-  }
+    if (fs.existsSync(pkgBase)) {
+      NATIVE_ADDON_DIRS.push({ src: pkgBase, dest: `sharp/node_modules/@img/sharp-${sharpArch}/node_modules/@img/sharp-${sharpArch}/` });
+      // Also copy directly to where sharp.js expects it relative to index.js
+      NATIVE_ADDON_DIRS.push({ src: pkgBase, dest: `node_modules/@img/sharp-${sharpArch}/lib` });
+    }
   
-  if (fs.existsSync(vipsBase)) {
-    NATIVE_ADDON_DIRS.push({ src: vipsBase, dest: 'sharp/vendor/lib' });
+    if (fs.existsSync(vipsBase)) {
+      NATIVE_ADDON_DIRS.push({ src: vipsBase, dest: 'sharp/vendor/lib' });
+    }
   }
 }
 
@@ -140,8 +143,8 @@ function buildAll() {
   console.log('══════════════════════════════════════════════');
 
   checkPkg();
-  discoverSharpVendor();
-
+  // discoverSharpBinaries will be called inside the targets loop now
+  
   // Ensure dist root exists
   ensureDir(DIST);
 
