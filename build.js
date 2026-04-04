@@ -33,13 +33,30 @@ const SUPPORT_FILES = [
 ];
 
 // Native addon directories that pkg cannot bundle — must be distributed alongside the exe
-// These come from the `sharp` package (libvips + prebuilt binaries)
-const NATIVE_ADDON_DIRS = [
+// We'll populate this dynamically in the build script to avoid version-mismatch errors.
+let NATIVE_ADDON_DIRS = [
   { src: path.join(ROOT, 'node_modules', 'sharp', 'build', 'Release'), dest: 'sharp/build/Release' },
-  { src: path.join(ROOT, 'node_modules', 'sharp', 'vendor', '8.14.5', 'win32-x64', 'lib'), dest: 'sharp/vendor/lib' },
-  { src: path.join(ROOT, 'node_modules', 'sharp', 'vendor', '8.14.5', 'linux-x64', 'lib'), dest: 'sharp/vendor/lib' },
-  { src: path.join(ROOT, 'node_modules', 'sharp', 'vendor', '8.14.5', 'darwin-x64', 'lib'), dest: 'sharp/vendor/lib' },
 ];
+
+function discoverSharpVendor() {
+  const vendorBase = path.join(ROOT, 'node_modules', 'sharp', 'vendor');
+  if (!fs.existsSync(vendorBase)) return;
+
+  const versions = fs.readdirSync(vendorBase);
+  for (const version of versions) {
+    const versionPath = path.join(vendorBase, version);
+    if (!fs.statSync(versionPath).isDirectory()) continue;
+
+    const platforms = fs.readdirSync(versionPath);
+    for (const platform of platforms) {
+      const libPath = path.join(versionPath, platform, 'lib');
+      if (fs.existsSync(libPath)) {
+        NATIVE_ADDON_DIRS.push({ src: libPath, dest: 'sharp/vendor/lib' });
+        ok(`Detected sharp vendor lib: ${platform} (${version})`);
+      }
+    }
+  }
+}
 
 // config.json.example will be copied as config.json (starter config for the user)
 const CONFIG_EXAMPLE_SRC  = path.join(ROOT, 'config.json.example');
@@ -115,6 +132,7 @@ function buildAll() {
   console.log('══════════════════════════════════════════════');
 
   checkPkg();
+  discoverSharpVendor();
 
   // Ensure dist root exists
   ensureDir(DIST);

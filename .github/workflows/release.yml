@@ -79,7 +79,7 @@ jobs:
         run: |
           cd dist/${{ matrix.target }}
           if [ "${{ runner.os }}" == "Windows" ]; then
-            7z a ../../${{ matrix.zip }} .
+            7z a ../../${{ matrix.zip }} ./* -r
           else
             zip -r ../../${{ matrix.zip }} .
           fi
