@@ -10,10 +10,9 @@
   },
   "pkg": {
     "assets": [
-      "src/books_index.json"
-    ],
-    "scripts": [
-      "src/**/*.js"
+      "dist/ncc/*.afm",
+      "dist/ncc/*.icc",
+      "dist/ncc/*.json"
     ]
   },
   "keywords": [
