@@ -8,7 +8,7 @@ const { copiesForCR } = require('./utils');
 const { overlayLabelOnImageBuffer } = require('./image');
 
 // PDF constants
-const config = require('../config.json');
+const config = require('./config_loader');
 const CM_TO_PT = 72 / 2.54;
 const PAGE_SIZE = 'A4';
 const PAGE_WIDTH_PT = 595.28;

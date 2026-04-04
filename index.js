@@ -30,9 +30,9 @@ global.loadSharp = function() {
 };
 
 // ── config loading ────────────────────────────────────────────────────────
+const config = require('./src/config_loader');
 const exeDir = process.pkg ? path.dirname(process.execPath) : process.cwd();
 const configPath = path.join(exeDir, 'config.json');
-let config;
 
 if (process.pkg) {
   console.log(`[DEBUG] Executable Dir: ${exeDir}`);
@@ -41,14 +41,7 @@ if (process.pkg) {
   console.log(`[DEBUG] TEST_SHARP: ${process.env.TEST_SHARP}`);
 }
 
-if (fs.existsSync(configPath)) {
-  try {
-    config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-  } catch (err) {
-    console.error(`Error parsing config.json: ${err.message}`);
-    process.exit(1);
-  }
-} else {
+if (!fs.existsSync(configPath)) {
   console.error(`config.json not found! Checked: ${configPath}`);
   process.exit(1);
 }

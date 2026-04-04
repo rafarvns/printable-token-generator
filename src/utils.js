@@ -1,5 +1,5 @@
 // CR spectrum utilities and shared helpers
-const config = require('../config.json');
+const config = require('./config_loader');
 
 let SPECTRUM_CACHE = null;
 

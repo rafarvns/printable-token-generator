@@ -1,5 +1,5 @@
 const sharp = global.loadSharp();
-const config = require('../config.json');
+const config = require('./config_loader');
 
 /**
  * Adds line breaks to text if it's longer than maxCharsPerLine

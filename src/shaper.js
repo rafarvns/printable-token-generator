@@ -1,6 +1,6 @@
 const sharp = global.loadSharp();
 const fetch = require('node-fetch');
-const config = require('../config.json');
+const config = require('./config_loader');
 const fsp = require('fs').promises;
 const path = require('path');
 

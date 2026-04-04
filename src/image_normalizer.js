@@ -3,7 +3,7 @@
 // image_normalizer.js - Script separado para normalizar/redimensionar todas as imagens
 // Executa independentemente do código principal, lendo as envs e redimensionando TODAS as imagens
 
-const config = require('../config.json');
+const config = require('./config_loader');
 const sharp = global.loadSharp();
 const fs = require('fs');
 const fsp = require('fs').promises;

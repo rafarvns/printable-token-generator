@@ -6,7 +6,7 @@ const fsp = require('fs').promises;
 const { TOKEN_IMAGES_5ETOOLS_DIR } = require('./paths');
 const { fileExists } = require('./fs');
 const { applyTokenRing } = require('./shaper');
-const config = require('../config.json');
+const config = require('./config_loader');
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
