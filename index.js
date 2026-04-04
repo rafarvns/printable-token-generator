@@ -7,13 +7,36 @@ if (process.pkg) {
   const exeDir = path.dirname(process.execPath);
   process.env.SHARP_IGNORE_GLOBAL_LIBVIPS = '1';
   // Tell Node where to look for the native addon
-  process.env.PATH = `${path.join(exeDir, 'sharp', 'build', 'Release')}${require('path').delimiter}${process.env.PATH || ''}`;
+  const nativePath = path.join(exeDir, 'sharp', 'build', 'Release');
+  process.env.PATH = `${nativePath}${path.delimiter}${process.env.PATH || ''}`;
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
-const config = require('./config.json');
-const inquirer = require('inquirer');
 const fs = require('fs');
+const path = require('path');
+
+// ── config loading fix ────────────────────────────────────────────────────────
+// When running as a pkg executable, we want to read config.json from the same
+// folder as the executable (process.cwd() or path.dirname(process.execPath)).
+// We DO NOT want to bundle it inside the snapshot.
+const configPath = path.join(process.cwd(), 'config.json');
+let config;
+
+if (fs.existsSync(configPath)) {
+  try {
+    config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  } catch (err) {
+    console.error(`Error parsing config.json: ${err.message}`);
+    process.exit(1);
+  }
+} else {
+  console.error('config.json not found! Please make sure it exists next to the executable.');
+  // If config.json.example exists, we could suggest copying it.
+  process.exit(1);
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+const inquirer = require('inquirer');
 const { ensureDirs, clearPdfOutput, scanExistingImages } = require('./src/fs');
 const { downloadTokensFromBook } = require('./src/tokens');
 const { generatePdfs } = require('./src/pdf');

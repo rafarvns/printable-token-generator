@@ -22,9 +22,9 @@ const ROOT   = __dirname;
 const DIST   = path.join(ROOT, 'dist');
 
 const TARGETS = [
-  { name: 'windows', pkgTarget: 'node18-win-x64',   exe: 'token-generator.exe' },
-  { name: 'linux',   pkgTarget: 'node18-linux-x64', exe: 'token-generator'     },
-  { name: 'mac',     pkgTarget: 'node18-macos-x64', exe: 'token-generator-mac' },
+  { name: 'windows', pkgTarget: 'node20-win-x64',   exe: 'token-generator.exe' },
+  { name: 'linux',   pkgTarget: 'node20-linux-x64', exe: 'token-generator'     },
+  { name: 'mac',     pkgTarget: 'node20-macos-x64', exe: 'token-generator-mac' },
 ];
 
 // Files / folders to copy into every platform distribution
@@ -36,7 +36,9 @@ const SUPPORT_FILES = [
 // These come from the `sharp` package (libvips + prebuilt binaries)
 const NATIVE_ADDON_DIRS = [
   { src: path.join(ROOT, 'node_modules', 'sharp', 'build', 'Release'), dest: 'sharp/build/Release' },
-  { src: path.join(ROOT, 'node_modules', 'sharp', 'vendor', 'lib'),    dest: 'sharp/vendor/lib'    },
+  { src: path.join(ROOT, 'node_modules', 'sharp', 'vendor', '8.14.5', 'win32-x64', 'lib'), dest: 'sharp/vendor/lib' },
+  { src: path.join(ROOT, 'node_modules', 'sharp', 'vendor', '8.14.5', 'linux-x64', 'lib'), dest: 'sharp/vendor/lib' },
+  { src: path.join(ROOT, 'node_modules', 'sharp', 'vendor', '8.14.5', 'darwin-x64', 'lib'), dest: 'sharp/vendor/lib' },
 ];
 
 // config.json.example will be copied as config.json (starter config for the user)
