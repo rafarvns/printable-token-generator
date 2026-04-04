@@ -1,6 +1,6 @@
 {
   "name": "printable-token-generator",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Automated tabletop token generator that fetches monster data, applies custom rings, and exports print-ready PDFs.",
   "main": "index.js",
   "scripts": {
