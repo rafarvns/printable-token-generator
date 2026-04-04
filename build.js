@@ -117,7 +117,18 @@ function buildAll() {
   // Ensure dist root exists
   ensureDir(DIST);
 
-  for (const target of TARGETS) {
+  // Se BUILD_TARGET estiver definido (ex: 'linux'), builda só ele.
+  // Caso contrário, builda todos (comportamento padrão local).
+  const activeTargets = process.env.BUILD_TARGET
+    ? TARGETS.filter(t => t.name === process.env.BUILD_TARGET)
+    : TARGETS;
+
+  if (process.env.BUILD_TARGET && activeTargets.length === 0) {
+    warn(`Target "${process.env.BUILD_TARGET}" not found in TARGETS definition.`);
+    return;
+  }
+
+  for (const target of activeTargets) {
     const outDir  = path.join(DIST, target.name);
     const exeDest = path.join(outDir, target.exe);
 
