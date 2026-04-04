@@ -1,0 +1,214 @@
+=========================================================
+      CONFIGURATION GUIDE - PRINTABLE D&D TOKENS
+=========================================================
+
+This file contains a detailed, step-by-step explanation of every item in the "config.json" file. The "config.json" is the core of the tool and allows you to control exactly how data is read, downloaded, and converted for printing.
+
+*Versão em Português-BR encontra-se logo abaixo neste documento.*
+
+---------------------------------------------------------
+1. PDF_SETTINGS (Output PDF Configurations)
+---------------------------------------------------------
+
+[ DELETE_ON_START ]
+- What it does: Determines if old PDFs generated in the previous run should be deleted from the "output/pdf" folder as soon as the command is executed again.
+- How to use: "true" (deletes old files) or "false" (keeps PDFs and only generates new ones).
+- Best time to use: Always keep it "true" if you don't want to clutter your PC. Change to "false" only if you are generating multiple books in a row and don't want to lose the previous book's PDF.
+
+[ CR_SPECTRUM_MIN ] and [ CR_SPECTRUM_MAX ]
+- What it does: Defines how the system calculates the number of copies to be printed for each Challenge Rating (CR) level.
+- How to use: Using the format "CR,COPIES". Example: "1/8,6" means any CR 1/8 monster yields 6 copies, and "12,1" means a CR 12 or higher monster yields 1 copy. Monsters in between (e.g., CR 3, or CR 6) will have their copy count automatically calculated mathematically according to a smooth curve between these two extremes.
+- Best time to use: Adjust these levels depending on how you play. If in your encounters the players usually face up to 10 Goblins (CR 1/4), increase the MIN COPIES to "1/4,10".
+
+---------------------------------------------------------
+2. DOWNLOAD_SETTINGS (Network Configurations)
+---------------------------------------------------------
+
+[ ENABLE_DOWNLOADS ]
+- What it does: Completely activates or shuts down the script's ability to fetch monsters from the internet.
+- How to use: "true" (downloads remote content) or "false" (absolute offline).
+- Best time to use: If you've already downloaded monster images previously, or if you want to place dozens of PNGs you got from a Wiki into the "token_images/yours/*" folders to generate a PDF out of them. Change to "false" and the tool will operate in "Local PDF Assembly" mode only.
+
+[ DELAY_MS ]
+- What it does: Imposes a slight brake (wait time) after each downloaded image.
+- How to use: Number (e.g., 50, 100, 200 milliseconds).
+- Best time to use: When you decide to download massive bestiaries like the "Monster Manual". If set to 0, Github/5E servers might think you're performing a DDoS attacking pulling 500 images simultaneously and Give you a Block (Error 403 / 429). Keep it at 50 to avoid silent restrictions.
+
+[ USE_5ETOOLS_TOKENS ]
+- What it does: Turns on or off advanced logic functionalities related to the 5etools ecosystem data and formatting.
+- How to use: "true" (enabled) or "false" (disabled).
+- Best time to use: Almost always "true". Setting it to "false" will disable the interactive graphics book selector (inquirer).
+
+[ GITHUB_SRC_REPOSITORY ] and [ GITHUB_IMG_REPOSITORY ]
+- What it does: Determines the root URL of Github Repositories from which the application will openly extract the community's JSON (Database) and IMG (WEBP and PNG Images).
+- How to use: Paste a Github branch link (e.g., "https://github.com/YourName/Repo"). The app automatically converts it to "raw.githubusercontent...".
+- Best time to use: If the tool returns "Error 404 (Not Found)", it means the original open mirrors might have been DMCA'd or relocated. You will use this field to point to your own Git account where you securely host the files. Leave blank ("") to use the built-in original public mirrors.
+
+---------------------------------------------------------
+3. TEXT_SETTINGS (Name Visual Configuration)
+---------------------------------------------------------
+
+[ SIZE_PERCENT ]
+- What it does: Font size percentage relative to the token's final size.
+- How to use: Decimal values (Default: 0.08, or 8%).
+- Best time to use: If you find the text in the generated PDF too small or too intrusive on the drawn dragon's forehead, lower/raise it here.
+
+[ COLOR ] and [ STROKE_COLOR ]
+- What it does: Inner Color and Stroke Color for enemies' names letters.
+- How to use: Texts ("white", "black") or Hexadecimals ("#FF0000").
+- Best time to use: Purely aesthetic customization. The combination of White text with a thick Black border is the only one that is 100% readable regardless of whether the token's background tip is a bright sheep (white) or a dark cave (black).
+
+[ MAX_CHARS_PER_LINE ]
+- What it does: Forced line breaking for long NPC names.
+- How to use: Integer ("14" characters).
+- Best time to use: Prevents "Supreme Eight-Eyed Destructive Lich" from spilling off the token bounds edge when printed.
+
+[ TOP_OFFSET ]
+- What it does: Distance (spacing) from the top cut boundary of the PNG shape where the name starts.
+- How to use: Percentage factor compared to font size (Default: 1.2).
+- Best time to use: If the names of Trolls and Orcs are positioned so high that your printer's guillotine cuts off the letters, change this value from 1.2 to 2.0 (which pushes the monster's name closer to its chin).
+
+---------------------------------------------------------
+4. TOKEN_SIZES (Mathematical Configurations)
+---------------------------------------------------------
+
+[ *_IN ] (SMALL_IN, MEDIUM_IN, LARGE_IN, HUGE_IN)
+- What it does: The physical scale radius in Inches of the object's lifetime envelope when drawing the PDF clipboard.
+- How to use: Floating-point (1.56, 2.56, etc).
+- Best time to use: The standard 5e system treats each distance Grid as = 1" Inch. Medium Size = 1.0. The tool uses 2.56 to embrace the visual proportion of the PDF layout itself. If you want to create much larger tokens for chess or massive models, raise the corresponding Inches.
+
+[ *_PX ] (SMALL_PX, MEDIUM_PX, LARGE_PX, HUGE_PX)
+- What it does: SharpJS photographic processing scale. Resizes how large in Pixels the token saved on SSD/HD will be.
+- How to use: Width numbers (Default: 280 for small, 560 for large).
+- Best time to use: From 280 to 1190 the PDF will become considerably heavier at an industrial level in MBs. Only increase this if the print quality on a fan-sized dragon token needs to be spectacular.
+
+---------------------------------------------------------
+5. TOKEN_RINGS (Ring/Border Design)
+---------------------------------------------------------
+
+[ ENABLED ]
+- What it does: Graphic standardization tool for circularizing any base image captured or downloaded. Overlays rings on top with Alpha circular cropping (invisible background on sulfite sheet).
+- How to use: "true" or "false".
+- Best time to use: If activated as True, when running the tool, all weirdly-shaped or loose images are decapitated by SharpJS according to the perimeter area, becoming perfect circles, ready for rings.
+
+[ USE_FROM_RINGS_FOLDER ]
+- What it does: Replaces simple CSS colored rings with realistic decorated PNG rings.
+- How to use: "true" (looks at your folder) or "false" (dry outline rings).
+- Best time to use: Enable this and drop a file named "myGoldenBorder.png" and "myInfernalBorder.png" in the `rings/` folder at the project root. The machine will shuffle them and automatically apply beautiful borders to the monsters.
+
+[ COLORS ]
+- What it does: If the PNG Rings from the item above don't exist or aren't found, the system will draw a colored rim in Vectorial CSS native to the project.
+- How to use: Array ("['#000000', 'red']"). It uses them randomly if there are multiple.
+- Best time to use: Pure backup configurations or spartan tabletop minimalist style!
+
+[ STROKE_PERCENT ]
+- What it does: Border thickness of Native Vectorial rings (if not using the PNGs folder).
+- How to use: Integer percentage. 0.09 means 9% of the token is covered by the color.
+- Best time to use: Increase if you want Extreme Border tokens, decrease for thin, elegant borders.
+
+
+=========================================================
+      GUIA DE CONFIGURAÇÃO - PRINTABLE D&D TOKENS
+=========================================================
+
+Este arquivo contém a explicação detalhada, passo a passo, de todos os itens do arquivo "config.json". O "config.json" é o coração da ferramenta e permite que você controle exatamente como os dados são lidos, baixados e convertidos em impressão.
+
+---------------------------------------------------------
+1. PDF_SETTINGS (Configurações do PDF de Saída)
+---------------------------------------------------------
+
+[ DELETE_ON_START ]
+- Para que serve: Determina se os PDFs antigos gerados na rodada anterior devem ser excluídos da pasta "output/pdf" assim que o comando for executado de novo.
+- Como usar: "true" (apaga arquivos antigos) ou "false" (mantém os PDFs e apenas gera novos).
+- Melhor hora de usar: Mantenha sempre "true" se não quiser entulhar seu PC. Mude para "false" apenas se você estiver gerando vários livros em sequência e não quiser perder o PDF do livro anterior.
+
+[ CR_SPECTRUM_MIN ] e [ CR_SPECTRUM_MAX ]
+- Para que serve: Define como o sistema deduz o número de cópias a serem impressas de cada nível de Desafio (CR / Challenge Rating).
+- Como usar: Usando o formato "CR,CÓPIAS". Exemplo: "1/8,6" significa que qualquer monstro de CR 1/8 gera 6 cópias, e "12,1" significa que um monstro CR 12 ou maior gera 1 cópia. Monstros no meio termo (ex: CR 3, ou CR 6) terão o número de cópias calculado automaticamente por uma curva suave entre esses dois extremos.
+- Melhor hora de usar: Ajuste esses níveis dependendo de como você joga. Se num encontro seu os jogadores costumam enfrentar até 10 Goblins (CR 1/4), aumente o CÓPIAS do MIN para "1/4,10".
+
+---------------------------------------------------------
+2. DOWNLOAD_SETTINGS (Configurações de Rede)
+---------------------------------------------------------
+
+[ ENABLE_DOWNLOADS ]
+- Para que serve: Ativa ou encerra completamente a capacidade do script buscar monstros na internet.
+- Como usar: "true" (baixa conteúdo de fora) ou "false" (offline absoluto).
+- Melhor hora de usar: Se você já baixou as imagens dos monstros antigamente, ou se você mesmo quer colocar dezenas de PNGs que roubou da Wikipédia nas pastas "token_images/yours/*" pra gerar PDF disso. Mude para "false" e a ferramenta operará apenas em modo de "Montagem de PDF local".
+
+[ DELAY_MS ]
+- Para que serve: Impõe um pequeno freio (tempo de espera) a cada imagem baixada.
+- Como usar: Número (ex: 50, 100, 200 milissegundos).
+- Melhor hora de usar: Quando você decidir baixar bestiários gigantes como o "Monster Manual". Se colocar 0, os servidores do Github/5E vão achar que você é um DdoS (Ataque Hacker) puxando 500 imagens simultâneas e lhe darão Block (Erro 403 / 429). Mantenha em 50 para evitar restrições silenciosamente.
+
+[ USE_5ETOOLS_TOKENS ]
+- Para que serve: Liga ou desliga as funcionalidades avançadas lógicas relacionadas a dados e formato do diretório do ecossistema 5etools.
+- Como usar: "true" (ativado) ou "false" (desativado).
+- Melhor hora de usar: Quase sempre "true". Se colocar "false" o código desabilitará a listagem gráfica (inquirer) de livros no prompt. 
+
+[ GITHUB_SRC_REPOSITORY ] e [ GITHUB_IMG_REPOSITORY ]
+- Para que serve: Determina a URL raiz dos Repositórios do Github de onde o App extrairá ilegalmente/abertamente o JSON (Base de Dados) e o IMG (Imagens em WEBP e PNG) da comunidade.
+- Como usar: Coloque um link de um branch do Github (ex: "https://github.com/SeuNome/RepoPirata"). O app converte automaticamente para "raw.githubusercontent...".
+- Melhor hora de usar: Se a ferramenta indicar "Erro 404 (Not Found)" significa que os espelhos abertos originais podem ter caído (DMCA). Você usará esse campo para hospedar clandestinamente os arquivos na sua conta do Git e apontar apenas para você. Deixe vazio ("") para usar os espelhos embutidos publicos originais.
+
+---------------------------------------------------------
+3. TEXT_SETTINGS (Configuração Visual do Nome)
+---------------------------------------------------------
+
+[ SIZE_PERCENT ]
+- Para que serve: Tamanho da Fonte percentual ao tamanho final do Token.
+- Como usar: Valores decimais (Padrão: 0.08, ou 8%).
+- Melhor hora de usar: Se você acha a letra do PDF gerado muito pequena ou muito intrusiva na testa do dragão desenhado, abaixe/aumente por aqui.
+
+[ COLOR ] e [ STROKE_COLOR ]
+- Para que serve: Cor Interna e Cor de Borda das letras dos inimigos.
+- Como usar: Textos ("white", "black") ou Hexadecimais ("#FF0000").
+- Melhor hora de usar: Personalização puramente estética. A combinação de letra Branca com borda grossa Preta é a única que é 100% legível independente se a ponta de fundo do token for ovelha brilhante (branco) ou caverna sombria (preta).
+
+[ MAX_CHARS_PER_LINE ]
+- Para que serve: Quebra forçada de linhas longas de nomes de NPCs.
+- Como usar: Inteiro ("14" caracteres).
+- Melhor hora de usar: Evita que "Lich Supremo de Oito Olhos Destrutivo" saia do papel quando o nome for escrito.
+
+[ TOP_OFFSET ]
+- Para que serve: Distância (espaçamento) que o nome inicia do teto de recorte da forma em PNG.
+- Como usar: Fator percentual comparado a fonte (Padrão: 1.2).
+- Melhor hora de usar: Se os nomes dos Trolls e Orcs ficarem tão no alto que a guilhotina da impressora da sua gráfica cortar as letras, modifique esse valor de 1.2 para 2.0 (o que empurra o nome do monstro mais pro queixo dele).
+
+---------------------------------------------------------
+4. TOKEN_SIZES (Configurações Matemáticas)
+---------------------------------------------------------
+
+[ *_IN ] (SMALL_IN, MEDIUM_IN, LARGE_IN, HUGE_IN)
+- Para que serve: Qual o raio em Polegadas de preenchimento vitalício de escala física do objeto no momento da criação da pranchêta em PDF.
+- Como usar: Ponto Flutuante (1.56, 2.56, etc).
+- Melhor hora de usar: O sistema padrão 5e trata cada Grid de distância como = 1" Inche. Medium Size = 1.0. A ferramenta usa 2.56 para abarcar a proporção visual do próprio layout dos PDF's. Se você quiser criar tokens muito maiores pra xadrez ou maquetes enormes, suba os Inches correspondentes.
+
+[ *_PX ] (SMALL_PX, MEDIUM_PX, LARGE_PX, HUGE_PX)
+- Para que serve: Escala de tratamento fotográfico do SharpJS. Redimensiona quão grande em Pixel o token salvo no SSD/HD será.
+- Como usar: Números de largura (Padrão: 280 para pequenos, 560 para grandes).
+- Melhor hora de usar: De 280 para 1190 o PDF ficará consideravelmente mais pesado à nível industrial em MB. Aumente apenas se a qualidade da impressão num token de dragão do tamanho de um ventilador precisar ficar espetacular.
+
+---------------------------------------------------------
+5. TOKEN_RINGS (Design de Anel/Bordas)
+---------------------------------------------------------
+
+[ ENABLED ]
+- Para que serve: Ferramenta gráfica de padronização circular de qualquer imagem base capturada ou baixada. Coloca anéis por cima com recorte circular Alpha (fundo invisível na folha sulfite).
+- Como usar: "true" ou "false".
+- Melhor hora de usar: Se ativado como True, ao rodar a ferramenta todas os formatos esquisitos ou imagens soltas são decapitadas pelo SharpJS de acordo com a área perimétrica virando círculos perfeitos, prontos para anéis.
+
+[ USE_FROM_RINGS_FOLDER ]
+- Para que serve: Substitui anéis coloridos simples de CSS por anéis decorados PNG realistas.
+- Como usar: "true" (olha a sua pasta) ou "false" (anéis de contorno secos).
+- Melhor hora de usar: Ative isso e droppe um arquivo chamado "minhaBordaDourada.png" e "minhaBordaInfernal.png" lá na pasta `rings/` da raiz do projeto. A máquina embaralhará eles e aplicará bordas lindas aos monstros automágicamente.
+
+[ COLORS ]
+- Para que serve: Caso os Anéis PNG do item acima não existam ou não sejam achados, o sistema vai desenhar um aro de cores em CSS Vetorial nativo do projeto.
+- Como usar: Array ("['#000000', 'red']"). Ele usa aleatoreamente se houverem vários.
+- Melhor hora de usar: Configurações de backup puro ou estilo minimalista de mesas espartanas!
+
+[ STROKE_PERCENT ]
+- Para que serve: Grossura (Espessura) da borda dos anéis Vetoriais Nativos (caso não use PNGs folder).
+- Como usar: Percentual inteiro. 0.09 significa 9% do token coberto pela cor.
+- Melhor hora de usar: Aumente se quiser tokens de Borda Extrema, diminua para bordas fininhas de elegância.
