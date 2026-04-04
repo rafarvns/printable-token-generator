@@ -185,7 +185,19 @@ function buildAll() {
   try {
     // We exclude sharp because we'll load it dynamically from disk
     execSync('npx ncc build index.js -o dist/ncc -e sharp', { stdio: 'inherit', cwd: ROOT });
-    ok('ncc bundle ready → dist/ncc/index.js');
+    
+    // Copy pdfkit assets (fonts, icc profiles) so pkg can include them
+    const pdfkitData = path.join(ROOT, 'node_modules', 'pdfkit', 'js', 'data');
+    if (fs.existsSync(pdfkitData)) {
+      log('Copying pdfkit assets to ncc bundle...');
+      for (const file of fs.readdirSync(pdfkitData)) {
+        if (file.endsWith('.afm') || file.endsWith('.icc')) {
+          fs.copyFileSync(path.join(pdfkitData, file), path.join(nccOut, file));
+        }
+      }
+    }
+
+    ok('ncc bundle ready → dist/ncc/index.js (plus assets)');
   } catch (err) {
     warn(`ncc bundling failed: ${err.message}`);
     process.exit(1);
@@ -202,6 +214,9 @@ function buildAll() {
     const pkgCmd = [
       'npx pkg',
       'dist/ncc/index.js',
+      '--assets "dist/ncc/*.afm"',
+      '--assets "dist/ncc/*.icc"',
+      '--assets "dist/ncc/*.json"',
       `--target ${target.pkgTarget}`,
       `--output "${exeDest}"`,
       '--compress GZip',
