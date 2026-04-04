@@ -63,6 +63,18 @@ function discoverSharpBinaries(platformName) {
       NATIVE_ADDON_DIRS.push({ src: sharpRoot, dest: 'node_modules/sharp' });
     }
 
+    // 1.1 Copy sharp's JS dependencies (required because we exclude sharp from ncc)
+    const sharpDeps = [
+      'color', 'color-convert', 'color-name', 'color-string', 
+      'detect-libc', 'semver', 'simple-swizzle', 'is-arrayish'
+    ];
+    for (const dep of sharpDeps) {
+      const depSrc = path.join(ROOT, 'node_modules', dep);
+      if (fs.existsSync(depSrc)) {
+        NATIVE_ADDON_DIRS.push({ src: depSrc, dest: `node_modules/${dep}` });
+      }
+    }
+
     // 2. Copy the platform-specific native package
     if (fs.existsSync(pkgRoot)) {
       NATIVE_ADDON_DIRS.push({ src: pkgRoot, dest: `node_modules/@img/sharp-${sharpArch}` });
