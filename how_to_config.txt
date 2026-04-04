@@ -1,5 +1,5 @@
 =========================================================
-      CONFIGURATION GUIDE - PRINTABLE D&D TOKENS
+      CONFIGURATION GUIDE - PRINTABLE TOKENS
 =========================================================
 
 This file contains a detailed, step-by-step explanation of every item in the "config.json" file. The "config.json" is the core of the tool and allows you to control exactly how data is read, downloaded, and converted for printing.
@@ -108,7 +108,7 @@ This file contains a detailed, step-by-step explanation of every item in the "co
 
 
 =========================================================
-      GUIA DE CONFIGURAÇÃO - PRINTABLE D&D TOKENS
+      GUIA DE CONFIGURAÇÃO - PRINTABLE TOKENS
 =========================================================
 
 Este arquivo contém a explicação detalhada, passo a passo, de todos os itens do arquivo "config.json". O "config.json" é o coração da ferramenta e permite que você controle exatamente como os dados são lidos, baixados e convertidos em impressão.

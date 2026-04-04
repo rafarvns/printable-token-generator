@@ -1,3 +1,16 @@
+// ── pkg executable fix ────────────────────────────────────────────────────────
+// When bundled by pkg, __dirname is a virtual snapshot path. Sharp needs its
+// native .node addon to live on the real filesystem (next to the exe).
+// We resolve the actual executable directory and point sharp there.
+if (process.pkg) {
+  const path = require('path');
+  const exeDir = path.dirname(process.execPath);
+  process.env.SHARP_IGNORE_GLOBAL_LIBVIPS = '1';
+  // Tell Node where to look for the native addon
+  process.env.PATH = `${path.join(exeDir, 'sharp', 'build', 'Release')}${require('path').delimiter}${process.env.PATH || ''}`;
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 const config = require('./config.json');
 const inquirer = require('inquirer');
 const fs = require('fs');

@@ -1,4 +1,4 @@
-# Printable D&D Token Generator
+# Printable Token Generator 🎲🧙‍♂️
 
 *Read in English below.*  
 ⬇️ [Versão em Português](#versão-em-português)
