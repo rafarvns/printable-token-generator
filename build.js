@@ -100,10 +100,10 @@ function copyDir(src, dest) {
 
 function checkPkg() {
   try {
-    execSync('npx pkg --version', { stdio: 'pipe' });
+    execSync('npx yao-pkg --version', { stdio: 'pipe' });
   } catch {
-    log('`pkg` not found locally — installing as devDependency…');
-    execSync('npm install --save-dev pkg', { stdio: 'inherit', cwd: ROOT });
+    log('`@yao-pkg/pkg` not found locally — installing as devDependency…');
+    execSync('npm install --save-dev @yao-pkg/pkg', { stdio: 'inherit', cwd: ROOT });
   }
 }
 
@@ -139,7 +139,7 @@ function buildAll() {
 
     // ── 1. Compile executable ─────────────────────────────────────────────────
     const pkgCmd = [
-      'npx pkg',
+      'npx yao-pkg',
       'index.js',
       `--target ${target.pkgTarget}`,
       `--output "${exeDest}"`,
