@@ -1,0 +1,37 @@
+{
+  "name": "printable-token-generator",
+  "version": "1.0.0",
+  "description": "Automated tabletop token generator that fetches monster data, applies custom rings, and exports print-ready PDFs.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "node build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "pkg": {
+    "assets": [
+      "src/books_index.json"
+    ],
+    "scripts": [
+      "src/**/*.js"
+    ]
+  },
+  "keywords": [
+    "dnd",
+    "tokens",
+    "pdf",
+    "generator"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^8.2.6",
+    "node-fetch": "^2.7.0",
+    "pdfkit": "^0.15.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.4",
+    "@yao-pkg/pkg": "^6.14.2"
+  }
+}

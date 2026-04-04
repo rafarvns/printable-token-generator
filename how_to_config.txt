@@ -1,0 +1,170 @@
+=========================================================
+      SIMPLIFIED CONFIGURATION GUIDE - TOKENS
+=========================================================
+
+This guide explains how to use the "config.json" file to customize your tokens. No technical jargon here—just a practical look at what each option does!
+
+---------------------------------------------------------
+1. PDF_SETTINGS (PDF Rules)
+---------------------------------------------------------
+
+[ DELETE_ON_START ]
+- What it does: Deletes old PDFs every time you start generating a new one.
+- How to use: Set to "true" to clear old files (recommended) or "false" to keep them.
+
+[ CR_SPECTRUM_MIN ] and [ CR_SPECTRUM_MAX ]
+- What it does: Decides how many copies of each monster to print based on its power level (CR).
+- How to use: Set "1/4,8" (Weak monster like a Goblin = 8 copies) and "10,1" (Strong monster like a Dragon = 1 copy). The program automatically calculates everything in between.
+
+---------------------------------------------------------
+2. DOWNLOAD_SETTINGS (Internet Downloads)
+---------------------------------------------------------
+
+[ ENABLE_DOWNLOADS ]
+- What it does: Turns automatic monster downloads on or off.
+- How to use: "true" to download from 5eTools. "false" if you already have everything or are using your own images in the "yours" folder.
+
+[ DELAY_MS ]
+- What it does: A short pause between each image download to prevent the website from blocking you.
+- How to use: Keep it at 50. If you experience internet errors, increase it to 100 or 200.
+
+[ GITHUB_SRC_REPOSITORY ] and [ GITHUB_IMG_REPOSITORY ]
+- What it does: Where the program gets the monster data from.
+- How to use: Leave as empty quotes ("") to use the default mirror. Only change it if you have your own Github link with monster data.
+
+---------------------------------------------------------
+3. TEXT_SETTINGS (Token Names)
+---------------------------------------------------------
+
+[ SIZE_PERCENT ]
+- What it does: The size of the monster's name on the token.
+- How to use: 0.08 is the default. If the name is too big and covers the art, decrease it to 0.06.
+
+[ COLOR ] and [ STROKE_COLOR ]
+- What it does: The text color and its border color.
+- How to use: "white" and "black" is the best combo for readability on any background.
+
+[ MAX_CHARS_PER_LINE ]
+- What it does: Limits how long a name can be before it wraps to a second line.
+- How to use: Keep it at 14 so names don't spill outside the circle.
+
+---------------------------------------------------------
+4. TOKEN_SIZES (Real-World Table Proportions)
+---------------------------------------------------------
+
+[ *_IN ] (SMALL_IN, MEDIUM_IN, etc.)
+- What it does: Physical size of the token on the printed sheet (in inches).
+- How to use: The default (approx. 1 inch for medium) already fits standard RPG maps. Only change this if your maps have very large or tiny grids.
+
+---------------------------------------------------------
+5. TOKEN_RINGS (Rings & Borders)
+---------------------------------------------------------
+
+[ ENABLED ]
+- What it does: Crops images into circles and adds a border overlay.
+- How to use: "true" for a standardized look. "false" to keep original square art.
+
+[ USE_FROM_RINGS_FOLDER ]
+- What it does: Uses fancy rings (gold, iron, etc.) that you put in the "rings" folder.
+- How to use: "true" if you have .png files in the rings folder. "false" to use basic colors.
+
+[ COLORS ]
+- What it does: Border colors used if you aren't using the "rings" folder.
+- How to use: It randomly picks colors from your list (e.g., "black", "red") for each token.
+
+---------------------------------------------------------
+6. FOLDER ORGANIZATION (token_images)
+---------------------------------------------------------
+
+- 5ETOOLS Folder: The program handles everything here automatically when you download monsters.
+- YOURS Folder: Where you put your own artwork.
+  - Drop art directly in "yours" and it will be treated as a MEDIUM token.
+  - For organization, use subfolders: medium, large, huge-gargantuan, tiny-small.
+  - Tip: Inside each size folder, create a subfolder named after the CR (ex: "5", "1-2") and the PDF will automatically print the correct number of copies!
+
+<br>
+<hr>
+
+=========================================================
+      GUIA DE CONFIGURAÇÃO SIMPLIFICADO - TOKENS
+=========================================================
+
+Este guia explica como usar o arquivo "config.json" para deixar seus tokens do jeito que você gosta. Não se preocupe com termos técnicos, aqui está o que cada opção faz na prática!
+
+---------------------------------------------------------
+1. PDF_SETTINGS (Regras do PDF)
+---------------------------------------------------------
+
+[ DELETE_ON_START ]
+- O que faz: Apaga os PDFs antigos toda vez que você começa a gerar um novo.
+- Como usar: "true" para limpar tudo (recomendado) ou "false" se quiser guardar os PDFs anteriores.
+
+[ CR_SPECTRUM_MIN ] e [ CR_SPECTRUM_MAX ]
+- O que faz: Decide quantas cópias de cada monstro imprimir baseado na força dele (CR).
+- Como usar: "1/4,8" (Monstro fraco como Goblin = 8 cópias) e "10,1" (Monstro Forte como Dragão = 1 cópia). O programa calcula sozinho os monstros que estão no meio desse caminho.
+
+---------------------------------------------------------
+2. DOWNLOAD_SETTINGS (Baixar da Internet)
+---------------------------------------------------------
+
+[ ENABLE_DOWNLOADS ]
+- O que faz: Liga ou desliga o download automático de monstros.
+- Como usar: "true" para baixar do 5eTools. "false" se você já baixou tudo ou vai usar suas próprias imagens na pasta "yours".
+
+[ DELAY_MS ]
+- O que faz: Uma pequena pausa entre cada imagem baixada para o site não te bloquear.
+- Como usar: Deixe em 50. Se estiver dando erro de internet, aumente para 100 ou 200.
+
+[ GITHUB_SRC_REPOSITORY ] e [ GITHUB_IMG_REPOSITORY ]
+- O que faz: De onde o programa puxa as informações dos monstros.
+- Como usar: Deixe vazio ("") para usar o padrão. Só mude se você tiver seu próprio link do Github com os dados dos monstros.
+
+---------------------------------------------------------
+3. TEXT_SETTINGS (Nomes nos Tokens)
+---------------------------------------------------------
+
+[ SIZE_PERCENT ]
+- O que faz: Tamanho da letra do nome do monstro.
+- Como usar: 0.08 é o padrão. Se o nome estiver muito grande e tapando o desenho, diminua para 0.06.
+
+[ COLOR ] e [ STROKE_COLOR ]
+- O que faz: Cor da letra e cor do contorno da letra.
+- Como usar: "white" (branco) e "black" (preto) é a melhor combinação para ler em qualquer lugar.
+
+[ MAX_CHARS_PER_LINE ]
+- O que faz: Limita o tamanho do nome antes de quebrar para a linha de baixo.
+- Como usar: Deixe em 14 para o nome não sair para fora do círculo.
+
+---------------------------------------------------------
+4. TOKEN_SIZES (Tamanhos Reais na Mesa)
+---------------------------------------------------------
+
+[ *_IN ] (SMALL_IN, MEDIUM_IN, etc.)
+- O que faz: Tamanho físico do token na folha (em polegadas).
+- Como usar: O padrão (aprox. 2.5cm para médio) já encaixa nos mapas de RPG comuns. Só mude se usar mapas com quadrados muito grandes ou muito pequenos.
+
+---------------------------------------------------------
+5. TOKEN_RINGS (Anéis e Bordas)
+---------------------------------------------------------
+
+[ ENABLED ]
+- O que faz: Corta as imagens em formato de círculo e coloca uma borda por cima.
+- Como usar: "true" deixa tudo padronizado e bonito. "false" mantém a imagem quadrada original.
+
+[ USE_FROM_RINGS_FOLDER ]
+- O que faz: Usa anéis bonitos (com textura de ouro, ferro, etc.) que você colocar na pasta "rings".
+- Como usar: "true" se você colocou arquivos .png na pasta rings. "false" para usar cores simples.
+
+[ COLORS ]
+- O que faz: Cores das bordas caso você não use a pasta "rings".
+- Como usar: Ele escolhe uma cor da lista (ex: "black", "red") para cada token.
+
+---------------------------------------------------------
+6. ORGANIZAÇÃO DE PASTAS (token_images)
+---------------------------------------------------------
+
+- Pasta 5ETOOLS: O programa organiza tudo sozinho aqui quando você baixa os monstros.
+- Pasta YOURS: Aqui você coloca suas próprias imagens.
+  - Se colocar direto na pasta "yours", ele vira um token MÉDIO.
+  - Se quiser organizar, use as pastas: medium, large, huge-gargantuan, tiny-small.
+  - Dica: Dentro de cada pasta de tamanho, você pode criar uma pasta com o número da CR (ex: "5", "1-2") e o PDF vai gerar a quantidade certa de cópias automaticamente!

@@ -1,0 +1,457 @@
+[
+  {
+    "name": "Acquisitions Incorporated",
+    "source": "AI",
+    "url": "bestiary-ai.json"
+  },
+  {
+    "name": "Adventure Atlas: The Mortuary",
+    "source": "AATM",
+    "url": "bestiary-aatm.json"
+  },
+  {
+    "name": "Adventure with Muk",
+    "source": "AWM",
+    "url": "bestiary-awm.json"
+  },
+  {
+    "name": "Adventures in the Forgotten Realms: Deepest Night",
+    "source": "AitFR-DN",
+    "url": "bestiary-aitfr-dn.json"
+  },
+  {
+    "name": "Adventures in the Forgotten Realms: From Cyan Depths",
+    "source": "AitFR-FCD",
+    "url": "bestiary-aitfr-fcd.json"
+  },
+  {
+    "name": "Adventures in the Forgotten Realms: In Scarlet Flames",
+    "source": "AitFR-ISF",
+    "url": "bestiary-aitfr-isf.json"
+  },
+  {
+    "name": "Adventures in the Forgotten Realms: The Hidden Page",
+    "source": "AitFR-THP",
+    "url": "bestiary-aitfr-thp.json"
+  },
+  {
+    "name": "Astarion's Book of Hungers",
+    "source": "ABH",
+    "url": "bestiary-abh.json"
+  },
+  {
+    "name": "Baldur's Gate: Descent Into Avernus",
+    "source": "BGDIA",
+    "url": "bestiary-bgdia.json"
+  },
+  {
+    "name": "Bigby Presents: Glory of the Giants",
+    "source": "BGG",
+    "url": "bestiary-bgg.json"
+  },
+  {
+    "name": "Boo's Astral Menagerie",
+    "source": "BAM",
+    "url": "bestiary-bam.json"
+  },
+  {
+    "name": "Candlekeep Mysteries",
+    "source": "CM",
+    "url": "bestiary-cm.json"
+  },
+  {
+    "name": "Chains of Asmodeus",
+    "source": "CoA",
+    "url": "bestiary-coa.json"
+  },
+  {
+    "name": "Critical Role: Call of the Netherdeep",
+    "source": "CRCotN",
+    "url": "bestiary-crcotn.json"
+  },
+  {
+    "name": "Curse of Strahd",
+    "source": "CoS",
+    "url": "bestiary-cos.json"
+  },
+  {
+    "name": "Descent into the Lost Caverns of Tsojcanth",
+    "source": "DitLCoT",
+    "url": "bestiary-ditlcot.json"
+  },
+  {
+    "name": "Domains of Delight",
+    "source": "DoD",
+    "url": "bestiary-dod.json"
+  },
+  {
+    "name": "Dragonlance: Shadow of the Dragon Queen",
+    "source": "DSotDQ",
+    "url": "bestiary-dsotdq.json"
+  },
+  {
+    "name": "Dragons of Stormwreck Isle",
+    "source": "DoSI",
+    "url": "bestiary-dosi.json"
+  },
+  {
+    "name": "Dungeon Master's Guide (2014)",
+    "source": "DMG",
+    "url": "bestiary-dmg.json"
+  },
+  {
+    "name": "Dungeon Master's Guide (2024)",
+    "source": "XDMG",
+    "url": "bestiary-xdmg.json"
+  },
+  {
+    "name": "Eberron: Forge of the Artificer",
+    "source": "EFA",
+    "url": "bestiary-efa.json"
+  },
+  {
+    "name": "Eberron: Rising from the Last War",
+    "source": "ERLW",
+    "url": "bestiary-erlw.json"
+  },
+  {
+    "name": "Essentials Kit: Divine Contention",
+    "source": "DC",
+    "url": "bestiary-dc.json"
+  },
+  {
+    "name": "Essentials Kit: Dragon of Icespire Peak",
+    "source": "DIP",
+    "url": "bestiary-dip.json"
+  },
+  {
+    "name": "Essentials Kit: Sleeping Dragon's Wake",
+    "source": "SDW",
+    "url": "bestiary-sdw.json"
+  },
+  {
+    "name": "Essentials Kit: Storm Lord's Wrath",
+    "source": "SLW",
+    "url": "bestiary-slw.json"
+  },
+  {
+    "name": "Explorer's Guide to Wildemount",
+    "source": "EGW",
+    "url": "bestiary-egw.json"
+  },
+  {
+    "name": "Fizban's Treasury of Dragons",
+    "source": "FTD",
+    "url": "bestiary-ftd.json"
+  },
+  {
+    "name": "Forgotten Realms: Adventures in Faerûn",
+    "source": "FRAiF",
+    "url": "bestiary-fraif.json"
+  },
+  {
+    "name": "Ghosts of Saltmarsh",
+    "source": "GoS",
+    "url": "bestiary-gos.json"
+  },
+  {
+    "name": "Giants of the Star Forge",
+    "source": "GotSF",
+    "url": "bestiary-gotsf.json"
+  },
+  {
+    "name": "Guildmasters' Guide to Ravnica",
+    "source": "GGR",
+    "url": "bestiary-ggr.json"
+  },
+  {
+    "name": "Heroes of the Borderlands",
+    "source": "HotB",
+    "url": "bestiary-hotb.json"
+  },
+  {
+    "name": "Hoard of the Dragon Queen",
+    "source": "HotDQ",
+    "url": "bestiary-hotdq.json"
+  },
+  {
+    "name": "Hunt for the Thessalhydra",
+    "source": "HftT",
+    "url": "bestiary-hftt.json"
+  },
+  {
+    "name": "Icewind Dale: Rime of the Frostmaiden",
+    "source": "IDRotF",
+    "url": "bestiary-idrotf.json"
+  },
+  {
+    "name": "Infernal Machine Rebuild",
+    "source": "IMR",
+    "url": "bestiary-imr.json"
+  },
+  {
+    "name": "Journeys through the Radiant Citadel",
+    "source": "JttRC",
+    "url": "bestiary-jttrc.json"
+  },
+  {
+    "name": "Keys from the Golden Vault",
+    "source": "KftGV",
+    "url": "bestiary-kftgv.json"
+  },
+  {
+    "name": "Krenko's Way",
+    "source": "KKW",
+    "url": "bestiary-kkw.json"
+  },
+  {
+    "name": "Light of Xaryxis",
+    "source": "LoX",
+    "url": "bestiary-lox.json"
+  },
+  {
+    "name": "Locathah Rising",
+    "source": "LR",
+    "url": "bestiary-lr.json"
+  },
+  {
+    "name": "Lorwyn: First Light",
+    "source": "LFL",
+    "url": "bestiary-lfl.json"
+  },
+  {
+    "name": "Lost Laboratory of Kwalish",
+    "source": "LLK",
+    "url": "bestiary-llk.json"
+  },
+  {
+    "name": "Lost Mine of Phandelver",
+    "source": "LMoP",
+    "url": "bestiary-lmop.json"
+  },
+  {
+    "name": "Minsc and Boo's Journal of Villainy",
+    "source": "MaBJoV",
+    "url": "bestiary-mabjov.json"
+  },
+  {
+    "name": "Monster Manual (2014)",
+    "source": "MM",
+    "url": "bestiary-mm.json"
+  },
+  {
+    "name": "Monster Manual (2025)",
+    "source": "XMM",
+    "url": "bestiary-xmm.json"
+  },
+  {
+    "name": "Monstrous Compendium Volume 4: Eldraine Creatures",
+    "source": "MCV4EC",
+    "url": "bestiary-mcv4ec.json"
+  },
+  {
+    "name": "Mordenkainen Presents: Monsters of the Multiverse",
+    "source": "MPMM",
+    "url": "bestiary-mpmm.json"
+  },
+  {
+    "name": "Mordenkainen's Tome of Foes",
+    "source": "MTF",
+    "url": "bestiary-mtf.json"
+  },
+  {
+    "name": "Morte's Planar Parade",
+    "source": "MPP",
+    "url": "bestiary-mpp.json"
+  },
+  {
+    "name": "Muk's Guide to Everything He Learned From Tasha",
+    "source": "MGELFT",
+    "url": "bestiary-mgelft.json"
+  },
+  {
+    "name": "Mythic Odysseys of Theros",
+    "source": "MOT",
+    "url": "bestiary-mot.json"
+  },
+  {
+    "name": "NERDS Restoring Harmony: A Sticky Situation",
+    "source": "NRH-ASS",
+    "url": "bestiary-nrh-ass.json"
+  },
+  {
+    "name": "NERDS Restoring Harmony: A Voice in the Wilderness",
+    "source": "NRH-AVitW",
+    "url": "bestiary-nrh-avitw.json"
+  },
+  {
+    "name": "NERDS Restoring Harmony: A Web of Lies",
+    "source": "NRH-AWoL",
+    "url": "bestiary-nrh-awol.json"
+  },
+  {
+    "name": "NERDS Restoring Harmony: Adventure Together",
+    "source": "NRH-AT",
+    "url": "bestiary-nrh-at.json"
+  },
+  {
+    "name": "NERDS Restoring Harmony: Circus of Illusion",
+    "source": "NRH-CoI",
+    "url": "bestiary-nrh-coi.json"
+  },
+  {
+    "name": "NERDS Restoring Harmony: The Candy Mountain Caper",
+    "source": "NRH-TCMC",
+    "url": "bestiary-nrh-tcmc.json"
+  },
+  {
+    "name": "NERDS Restoring Harmony: The Lost Tomb",
+    "source": "NRH-TLT",
+    "url": "bestiary-nrh-tlt.json"
+  },
+  {
+    "name": "Netheril's Fall",
+    "source": "NF",
+    "url": "bestiary-nf.json"
+  },
+  {
+    "name": "Out of the Abyss",
+    "source": "OotA",
+    "url": "bestiary-oota.json"
+  },
+  {
+    "name": "Phandelver and Below: The Shattered Obelisk",
+    "source": "PaBTSO",
+    "url": "bestiary-pabtso.json"
+  },
+  {
+    "name": "Player's Handbook (2014)",
+    "source": "PHB",
+    "url": "bestiary-phb.json"
+  },
+  {
+    "name": "Player's Handbook (2024)",
+    "source": "XPHB",
+    "url": "bestiary-xphb.json"
+  },
+  {
+    "name": "Princes of the Apocalypse",
+    "source": "PotA",
+    "url": "bestiary-pota.json"
+  },
+  {
+    "name": "Quests from the Infinite Staircase",
+    "source": "QftIS",
+    "url": "bestiary-qftis.json"
+  },
+  {
+    "name": "Ravenloft: The House of Lament",
+    "source": "HoL",
+    "url": "bestiary-hol.json"
+  },
+  {
+    "name": "Red Dragon's Tale: A LEGO Adventure",
+    "source": "LRDT",
+    "url": "bestiary-lrdt.json"
+  },
+  {
+    "name": "Return to the Glory",
+    "source": "RtG",
+    "url": "bestiary-rtg.json"
+  },
+  {
+    "name": "Rise of Tiamat",
+    "source": "RoT",
+    "url": "bestiary-rot.json"
+  },
+  {
+    "name": "Storm King's Thunder",
+    "source": "SKT",
+    "url": "bestiary-skt.json"
+  },
+  {
+    "name": "Stranger Things: Welcome to the Hellfire Club",
+    "source": "WttHC",
+    "url": "bestiary-wtthc.json"
+  },
+  {
+    "name": "Strixhaven: A Curriculum of Chaos",
+    "source": "SCC",
+    "url": "bestiary-scc.json"
+  },
+  {
+    "name": "Tasha's Cauldron of Everything",
+    "source": "TCE",
+    "url": "bestiary-tce.json"
+  },
+  {
+    "name": "The Book of Many Things",
+    "source": "BMT",
+    "url": "bestiary-bmt.json"
+  },
+  {
+    "name": "The Lost Dungeon of Rickedness: Big Rick Energy",
+    "source": "RMBRE",
+    "url": "bestiary-rmbre.json"
+  },
+  {
+    "name": "The Orrery of the Wanderer",
+    "source": "OoW",
+    "url": "bestiary-oow.json"
+  },
+  {
+    "name": "The Tortle Package",
+    "source": "TTP",
+    "url": "bestiary-ttp.json"
+  },
+  {
+    "name": "The Wild Beyond the Witchlight",
+    "source": "WBtW",
+    "url": "bestiary-wbtw.json"
+  },
+  {
+    "name": "Thieves' Gallery",
+    "source": "HAT-TG",
+    "url": "bestiary-hat-tg.json"
+  },
+  {
+    "name": "Tomb of Annihilation",
+    "source": "ToA",
+    "url": "bestiary-toa.json"
+  },
+  {
+    "name": "Turn of Fortune's Wheel",
+    "source": "ToFW",
+    "url": "bestiary-tofw.json"
+  },
+  {
+    "name": "Van Richten's Guide to Ravenloft",
+    "source": "VRGR",
+    "url": "bestiary-vrgr.json"
+  },
+  {
+    "name": "Vecna: Eve of Ruin",
+    "source": "VEoR",
+    "url": "bestiary-veor.json"
+  },
+  {
+    "name": "Volo's Guide to Monsters",
+    "source": "VGM",
+    "url": "bestiary-vgm.json"
+  },
+  {
+    "name": "Waterdeep: Dragon Heist",
+    "source": "WDH",
+    "url": "bestiary-wdh.json"
+  },
+  {
+    "name": "Waterdeep: Dungeon of the Mad Mage",
+    "source": "WDMM",
+    "url": "bestiary-wdmm.json"
+  },
+  {
+    "name": "Xanathar's Guide to Everything",
+    "source": "XGE",
+    "url": "bestiary-xge.json"
+  }
+]
