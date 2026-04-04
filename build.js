@@ -32,29 +32,37 @@ const SUPPORT_FILES = [
   'how_to_config.txt',
 ];
 
-// Native addon directories that pkg cannot bundle — must be distributed alongside the exe
-// We'll populate this dynamically in the build script to avoid version-mismatch errors.
-let NATIVE_ADDON_DIRS = [
-  { src: path.join(ROOT, 'node_modules', 'sharp', 'build', 'Release'), dest: 'sharp/build/Release' },
-];
+// Paths where sharp native binaries might live
+let NATIVE_ADDON_DIRS = [];
 
-function discoverSharpVendor() {
-  const vendorBase = path.join(ROOT, 'node_modules', 'sharp', 'vendor');
-  if (!fs.existsSync(vendorBase)) return;
+/**
+ * Modern sharp (0.33+) uses @img/sharp-xxx packages for prebuilt binaries.
+ * We need to find the correct ones for each platform and copy them.
+ */
+function discoverSharpBinaries(platformName) {
+  NATIVE_ADDON_DIRS = []; // Reset
+  
+  // Mapping our internal target names to sharp's runtime platform strings
+  const platformMap = {
+    'windows': 'win32-x64',
+    'linux':   'linux-x64',
+    'mac':     'darwin-x64' // or darwin-arm64
+  };
 
-  const versions = fs.readdirSync(vendorBase);
-  for (const version of versions) {
-    const versionPath = path.join(vendorBase, version);
-    if (!fs.statSync(versionPath).isDirectory()) continue;
+  const sharpArch = platformMap[platformName];
+  if (!sharpArch) return;
 
-    const platforms = fs.readdirSync(versionPath);
-    for (const platform of platforms) {
-      const libPath = path.join(versionPath, platform, 'lib');
-      if (fs.existsSync(libPath)) {
-        NATIVE_ADDON_DIRS.push({ src: libPath, dest: 'sharp/vendor/lib' });
-        ok(`Detected sharp vendor lib: ${platform} (${version})`);
-      }
-    }
+  const pkgBase = path.join(ROOT, 'node_modules', '@img', `sharp-${sharpArch}`, 'lib');
+  const vipsBase = path.join(ROOT, 'node_modules', '@img', `sharp-libvips-${sharpArch}`, 'lib');
+
+  if (fs.existsSync(pkgBase)) {
+    NATIVE_ADDON_DIRS.push({ src: pkgBase, dest: `sharp/node_modules/@img/sharp-${sharpArch}/node_modules/@img/sharp-${sharpArch}/` });
+    // Also copy directly to where sharp.js expects it relative to index.js
+    NATIVE_ADDON_DIRS.push({ src: pkgBase, dest: `node_modules/@img/sharp-${sharpArch}/lib` });
+  }
+  
+  if (fs.existsSync(vipsBase)) {
+    NATIVE_ADDON_DIRS.push({ src: vipsBase, dest: 'sharp/vendor/lib' });
   }
 }
 
@@ -196,6 +204,7 @@ function buildAll() {
 
     // ── 5. Copy sharp native binaries (pkg cannot bundle these) ───────────────
     log('Copying sharp native binaries…');
+    discoverSharpBinaries(target.name);
     for (const { src, dest } of NATIVE_ADDON_DIRS) {
       copyDir(src, path.join(outDir, dest));
     }

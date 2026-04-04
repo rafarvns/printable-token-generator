@@ -1,6 +1,6 @@
 {
   "name": "printable-token-generator",
-  "version": "1.0.5",
+  "version": "1.0.0",
   "description": "Automated tabletop token generator that fetches monster data, applies custom rings, and exports print-ready PDFs.",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "inquirer": "^8.2.6",
     "node-fetch": "^2.7.0",
     "pdfkit": "^0.15.0",
-    "sharp": "^0.33.4"
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@yao-pkg/pkg": "^6.14.2"

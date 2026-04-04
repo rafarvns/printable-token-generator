@@ -67,7 +67,13 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          # Pre-download sharp binaries for all supported platforms so build.js can find them
+          npm install --os=win32 --cpu=x64 sharp
+          npm install --os=linux --cpu=x64 sharp
+          npm install --os=darwin --cpu=x64 sharp
+          npm install --os=darwin --cpu=arm64 sharp
 
       - name: Build
         run: node build.js

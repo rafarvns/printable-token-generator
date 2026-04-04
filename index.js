@@ -6,9 +6,9 @@ if (process.pkg) {
   const path = require('path');
   const exeDir = path.dirname(process.execPath);
   process.env.SHARP_IGNORE_GLOBAL_LIBVIPS = '1';
-  // Tell Node where to look for the native addon
-  const nativePath = path.join(exeDir, 'sharp', 'build', 'Release');
-  process.env.PATH = `${nativePath}${path.delimiter}${process.env.PATH || ''}`;
+  // Point libvips to our bundled vendor/lib folder (where DLLs live)
+  const vipsPath = path.join(exeDir, 'sharp', 'vendor', 'lib');
+  process.env.PATH = `${vipsPath}${path.delimiter}${process.env.PATH || ''}`;
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
