@@ -17,7 +17,8 @@ function parseCRToNumber(cr) {
 
 function parseSpectrumEndpoint(str) {
   if (!str) return null;
-  const parts = String(str).split(',');
+  // Splits by comma, space or colon to be more flexible with user input (ex: "1/4, 6" or "20 1")
+  const parts = String(str).split(/[,\s:]+/).filter(p => p.length > 0);
   if (parts.length !== 2) return null;
   const crNum = parseCRToNumber(parts[0].trim());
   const copiesNum = Number(parts[1].trim());
@@ -49,8 +50,13 @@ function copiesForCR(cr) {
   const minCopies = min.copies;
   const maxCopies = max.copies;
 
-  if (n <= minCR) return Math.round(minCopies);
-  if (n >= maxCR) return Math.round(maxCopies);
+  // Se o CR for maior ou igual ao máximo configurado, retorna o valor de cópias do endpoint máximo.
+  // Isso garante que monstros de CR alto (ex: 20) continuem aparecendo se o máximo for menor (ex: 12).
+  if (n >= maxCR) return Math.max(1, Math.round(maxCopies));
+  if (n <= minCR) return Math.max(1, Math.round(minCopies));
+
+  // Previne divisão por zero se o espectro configurado tiver mesmo CR no min e no max
+  if (Math.abs(maxCR - minCR) < 0.0001) return Math.max(1, Math.round(maxCopies));
 
   const t = (n - minCR) / (maxCR - minCR);
   const copiesFloat = minCopies + t * (maxCopies - minCopies);
@@ -58,7 +64,7 @@ function copiesForCR(cr) {
 
   const lo = Math.min(Math.round(minCopies), Math.round(maxCopies));
   const hi = Math.max(Math.round(minCopies), Math.round(maxCopies));
-  return Math.max(lo, Math.min(hi, copies));
+  return Math.max(1, Math.max(lo, Math.min(hi, copies)));
 }
 
 module.exports = {

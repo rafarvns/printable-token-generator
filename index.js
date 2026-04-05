@@ -213,12 +213,13 @@ async function main() {
 
             await scanDir(res, fromApi, nextSource, nextSize, nextCr);
           } else if (file.name.endsWith('.png') || file.name.endsWith('.jpg') || file.name.endsWith('.jpeg')) {
-            // Se for do YOURS, só aceita se tiver o prefixo 'token_'
-            if (!fromApi && dir.includes('yours') && !file.name.startsWith('token_')) {
-              continue;
-            }
-
-            const name = file.name.replace('token_', '').replace(/\.[^/.]+$/, "").replace(/^[^-]+_/, "").replace(/_/g, " ");
+            // Melhora a extração do nome: remove prefixo 'token_' se houver, remove extensão, 
+            // e remove o prefixo de CR (ex: '20_' ou '1-8_') buscando o primeiro underscore.
+            const name = file.name
+              .replace(/^token_/, '')
+              .replace(/\.[^/.]+$/, "")
+              .replace(/^[\d\/\-]+_/, "")  // Somente remove se o prefixo antes do '_' for numérico/CR (ex: '20_' ou '1-8_')
+              .replace(/_/g, " ");
             
             // Mapeia o nome da pasta de tamanho para o valor esperado pelo pdf.js (tiny, medium, etc)
             let mappedSize = 'medium';
@@ -318,8 +319,9 @@ async function showHelpMenu() {
     console.log('\n--- HOW TO USE YOUR OWN IMAGES ---');
     console.log('1. Place your PNG/JPG files in the "token_images/yours" folder.');
     console.log('2. If you put them in the root, they are treated as "Medium" and "CR 1".');
-    console.log('3. To specify size, put them in folders: "tiny-small", "medium", "large", "huge-gargantuan".');
-    console.log('4. To specify CR, create a subfolder inside the size (ex: "medium/5/monster.png").');
+    console.log('3. Best practice: Use subfolders like "medium/5/monster.png"');
+    console.log('   (Size: medium, CR: 5). The PDF will automatically print correct copies.');
+    console.log('4. Tip: Filenames don\'t need a prefix anymore, but "token_" still works.');
   } else if (helpTopic === 'h_pdf') {
     console.log('\n--- HOW TO GENERATE PDFS ---');
     console.log('1. Select "Generate Printable PDF from tokens".');
