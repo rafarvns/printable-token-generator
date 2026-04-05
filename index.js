@@ -37,7 +37,7 @@ const configPath = path.join(exeDir, 'config.json');
 // ── version 1.0.0 ──
 
 if (!fs.existsSync(configPath)) {
-  console.error(`config.json not found! Checked: ${configPath}`);
+  console.error(`[ERROR] config.json not found! Searched at: ${configPath}`);
   process.exit(1);
 }
 
@@ -114,10 +114,10 @@ async function main() {
       if (bookSelection === 'back') return main();
 
       if (bookSelection === 'all') {
-        console.log(`\nIniciando download em lote de ${booksIndex.length} livros...\n`);
+        console.log(`\n[INFO] Starting batch download of ${booksIndex.length} books...\n`);
         for (let i = 0; i < booksIndex.length; i++) {
           const b = booksIndex[i];
-          console.log(`\n[${i+1}/${booksIndex.length}] Baixando livro: ${b.name} (${b.source})`);
+          console.log(`\n[INFO] [${i+1}/${booksIndex.length}] Downloading book: ${b.name} (${b.source})`);
           await downloadTokensFromBook(b.url, b.source);
         }
       } else {
@@ -132,7 +132,7 @@ async function main() {
       // 1. Identificar fontes disponíveis
       const availableSources = [];
       if (fs.existsSync(TOKEN_IMAGES_YOURS_DIR)) {
-        availableSources.push({ name: 'Sua Coleção (Yours)', value: { dir: TOKEN_IMAGES_YOURS_DIR, fromApi: false, source: 'yours' } });
+        availableSources.push({ name: 'Your Collection (Yours)', value: { dir: TOKEN_IMAGES_YOURS_DIR, fromApi: false, source: 'yours' } });
       }
       
       if (fs.existsSync(TOKEN_IMAGES_5ETOOLS_DIR)) {
@@ -151,7 +151,7 @@ async function main() {
       }
 
       if (availableSources.length === 0) {
-        console.log('Nenhuma imagem de token encontrada em token_images/! Baixe alguns tokens primeiro.');
+        console.log('[WARN] No token images found in token_images/! Download some tokens first.');
         await main();
         return;
       }
@@ -160,9 +160,9 @@ async function main() {
         {
           type: 'checkbox',
           name: 'selectedSources',
-          message: 'Selecione os livros/fontes para gerar o PDF:',
+          message: 'Select books/sources to generate PDF from:',
           choices: [
-            { name: '--- Selecionar Todos ---', value: 'all' },
+            { name: '--- Select All ---', value: 'all' },
             new inquirer.Separator(),
             ...availableSources,
             new inquirer.Separator(),
@@ -170,7 +170,7 @@ async function main() {
           ],
           validate: (answer) => {
             if (answer.includes('back')) return true;
-            return answer.length > 0 ? true : 'Selecione pelo menos uma fonte!';
+            return answer.length > 0 ? true : 'Please select at least one source!';
           }
         }
       ]);
@@ -239,16 +239,16 @@ async function main() {
         }
       }
 
-      console.log('\nEscaneando tokens das fontes selecionadas...');
+      console.log('\n[INFO] Scanning tokens from selected sources...');
       for (const sourceInfo of finalSources) {
         // Para 5etools, passamos a source dinamicamente com base na pasta raiz selecionada
         await scanDir(sourceInfo.dir, sourceInfo.fromApi, sourceInfo.source);
       }
 
       if (tokens.length === 0) {
-        console.log('Nenhum token válido encontrado nas pastas selecionadas!');
+        console.log('[WARN] No valid tokens found in selected sources!');
       } else {
-        console.log(`Gerando PDFs para ${tokens.length} tokens...`);
+        console.log(`\n[INFO] Generating PDFs for ${tokens.length} tokens...\n`);
         
         // Agrupar por source para criar pastas no output
         const sourcesMap = new Map();
@@ -267,7 +267,7 @@ async function main() {
             fs.mkdirSync(sourceOutDir, { recursive: true });
           }
 
-          console.log(`\nProcessando fonte: ${source} (${sourceTokens.length} tokens)`);
+          console.log(`\n[INFO] Processing source: ${source} (${sourceTokens.length} tokens)`);
           await generatePdfs(sourceTokens, sourceOutDir);
         }
         

@@ -169,7 +169,7 @@ async function createPdfForGroup(items, spec, bucketKey, subfolder = '') {
     stream.on('error', reject);
   });
 
-  console.log(`PDF created: ${pdfPath}`);
+  console.log(`[SUCCESS] PDF created: ${pdfPath}`);
   return pdfPath;
 }
 

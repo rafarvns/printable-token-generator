@@ -80,7 +80,7 @@ function parseCr(crObj) {
 
 async function downloadTokensFromBook(bookUrl, bookSource, limit = Infinity) {
   if (!ENABLE_DOWNLOADS) {
-    console.log('[DEBUG] Download de tokens desativado (ENABLE_DOWNLOADS=false)');
+    console.log('[INFO] Token download is disabled (ENABLE_DOWNLOADS=false)');
     return [];
   }
 
@@ -90,28 +90,28 @@ async function downloadTokensFromBook(bookUrl, bookSource, limit = Infinity) {
   for (const mirrorBase of MIRRORS) {
     const fullUrl = `${mirrorBase}/${bookUrl}`;
     try {
-      console.log(`[DEBUG] Tentando: ${fullUrl}`);
+      console.log(`[DEBUG] Trying mirror: ${fullUrl}`);
       const res = await fetch(fullUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
       if (res.ok) {
         data = await res.json();
         successUrl = fullUrl;
         break;
       } else {
-        console.log(`[DEBUG] Falha em ${fullUrl}: ${res.status} ${res.statusText}`);
+        console.log(`[DEBUG] Failed at ${fullUrl}: ${res.status} ${res.statusText}`);
       }
     } catch (e) {
-      console.log(`[DEBUG] Erro de rede em ${fullUrl}: ${e.message}`);
+      console.log(`[DEBUG] Network error at ${fullUrl}: ${e.message}`);
     }
   }
 
   if (!data) {
-    console.error(`Erro: Não foi possível encontrar o livro ${bookUrl} em nenhum dos mirrors (${MIRRORS.join(', ')})`);
+    console.error(`[ERROR] Could not find book ${bookUrl} in any mirrors.`);
     return [];
   }
 
-  console.log(`Dados carregados com sucesso de: ${successUrl}`);
+  console.log(`[SUCCESS] Data loaded successfully from mirror.`);
   const monsters = data.monster || [];
-  console.log(`Encontrados ${monsters.length} monstros no livro.`);
+  console.log(`[INFO] Found ${monsters.length} monsters in the book.`);
 
   const downloaded = [];
   let processed = 0;
@@ -151,7 +151,7 @@ async function downloadTokensFromBook(bookUrl, bookSource, limit = Infinity) {
       await sleep(DOWNLOAD_DELAY_MS);
     }
 
-    process.stdout.write(`Baixando: ${name} [${size}] CR:${cr} ... `);
+    process.stdout.write(`[INFO] Downloading: ${name} [${size}] CR:${cr} ... `);
 
     // Preparar sufixo da URL
     const encodedName = encodeURIComponent(name);
@@ -177,7 +177,7 @@ async function downloadTokensFromBook(bookUrl, bookSource, limit = Infinity) {
       }
       
       if (!tokenRes || !tokenRes.ok) {
-        console.log(`erro no download do token (${tokenRes ? tokenRes.statusText : 'Falha na rede'})`);
+        console.log(`FAILED (${tokenRes ? tokenRes.statusText : 'Network error'})`);
         continue;
       }
 
@@ -206,11 +206,11 @@ async function downloadTokensFromBook(bookUrl, bookSource, limit = Infinity) {
       processedBuf = await applyTokenRing(processedBuf, targetPixelSize);
 
       await fsp.writeFile(outPath, processedBuf);
-      console.log(`salvo no cache!`);
+      console.log(`SUCCESS (saved to cache)`);
       downloaded.push({ name, size, cr, folder, path: outPath, from5etools: true });
 
     } catch (err) {
-      console.log(`falha (${err.message})`);
+      console.log(`FAILED (${err.message})`);
     }
   }
 

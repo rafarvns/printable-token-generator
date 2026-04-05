@@ -140,7 +140,7 @@ async function detectAlphaBorderAndGetCenter(imagePath) {
         return { hasThickAlphaBorder: false };
         
     } catch (error) {
-        console.warn(`  ⚠ Aviso: Erro ao detectar bordas alpha em ${imagePath}: ${error.message}`);
+    console.warn(`[WARN] Failed to detect alpha borders in ${imagePath}: ${error.message}`);
         return null;
     }
 }
@@ -150,7 +150,7 @@ async function detectAlphaBorderAndGetCenter(imagePath) {
  */
 async function resizeImage(imagePath, targetSize) {
     try {
-        console.log(`Processando: ${imagePath} -> ${targetSize}x${targetSize}px`);
+        console.log(`[INFO] Processing: ${path.basename(imagePath)} -> ${targetSize}x${targetSize}px`);
         
         // Detecta bordas alpha espessas
         const alphaInfo = await detectAlphaBorderAndGetCenter(imagePath);
@@ -158,7 +158,7 @@ async function resizeImage(imagePath, targetSize) {
         let sharpInstance = sharp(imagePath);
         
         if (alphaInfo && alphaInfo.hasThickAlphaBorder) {
-            console.log(`  ⚠ Detectada borda alpha espessa - expandindo token do centro`);
+            console.log(`  ⚠ Thick alpha border detected - expanding token from center`);
             
             const { contentBounds, contentWidth, contentHeight } = alphaInfo;
             
@@ -221,10 +221,10 @@ async function resizeImage(imagePath, targetSize) {
         const outPath = path.join(outDir, `token_${parsed.name}.png`);
         await fsp.writeFile(outPath, processedBuffer);
         
-        console.log(`  ✓ Redimensionado, anel aplicado e salvo: ${outPath}`);
+        console.log(`  ✔ Resized, ring applied and saved: ${path.basename(outPath)}`);
         
     } catch (error) {
-        console.error(`  ✗ Erro ao processar ${imagePath}: ${error.message}`);
+        console.error(`  ✖ Error processing ${imagePath}: ${error.message}`);
     }
 }
 
@@ -233,14 +233,14 @@ async function resizeImage(imagePath, targetSize) {
  */
 async function main() {
     console.log('=== Image Normalizer ===');
-    console.log('Carregando configurações das variáveis de ambiente...\n');
+    console.log('[INFO] Loading configurations...\n');
     
     const tokenSizes = getTokenSizes();
-    console.log('Tamanhos configurados:');
-    console.log(`  Pequenas: ${tokenSizes.pequenas}px`);
-    console.log(`  Médias: ${tokenSizes.medias}px`);
-    console.log(`  Grandes: ${tokenSizes.grandes}px`);
-    console.log(`  Gigantes: ${tokenSizes.gigantes}px\n`);
+    console.log('[INFO] Configured sizes:');
+    console.log(`  Small: ${tokenSizes.pequenas}px`);
+    console.log(`  Medium: ${tokenSizes.medias}px`);
+    console.log(`  Large: ${tokenSizes.grandes}px`);
+    console.log(`  Huge: ${tokenSizes.gigantes}px\n`);
     
     // Diretórios para processar
     const searchDirs = [
@@ -253,21 +253,21 @@ async function main() {
     for (const searchDir of searchDirs) {
         try {
             await fsp.access(searchDir);
-            console.log(`Buscando imagens em: ${searchDir}`);
+            console.log(`[INFO] Searching images in: ${searchDir}`);
             const images = await findAllImages(searchDir);
             allImages.push(...images);
-            console.log(`  Encontradas ${images.length} imagens\n`);
+            console.log(`  Found ${images.length} images\n`);
         } catch {
-            console.log(`  Diretório não encontrado: ${searchDir}\n`);
+            console.log(`  Directory not found (skipping): ${searchDir}\n`);
         }
     }
     
     if (allImages.length === 0) {
-        console.log('Nenhuma imagem encontrada para processar.');
+        console.log('[WARN] No images found to process.');
         return;
     }
     
-    console.log(`Total de ${allImages.length} imagens encontradas. Iniciando processamento...\n`);
+    console.log(`[INFO] Total of ${allImages.length} images found. Starting processing...\n`);
     
     let processedCount = 0;
     let errorCount = 0;
@@ -281,20 +281,19 @@ async function main() {
             processedCount++;
         } catch (error) {
             errorCount++;
-            console.error(`Erro geral ao processar ${imagePath}: ${error.message}`);
+            console.error(`[ERROR] Critical error processing ${imagePath}: ${error.message}`);
         }
     }
     
-    console.log('\n=== Resumo ===');
-    console.log(`Total de imagens: ${allImages.length}`);
-    console.log(`Processadas com sucesso: ${processedCount}`);
-    console.log(`Erros: ${errorCount}`);
+    console.log('\n=== Summary ===');
+    console.log(`Total Images: ${allImages.length}`);
+    console.log(`Successfully Processed: ${processedCount}`);
+    console.log(`Errors: ${errorCount}`);
     
     if (errorCount > 0) {
-        console.log('\nAlgumas imagens não puderam ser processadas. Verifique os erros acima.');
-        // Evita derrubar o processo principal se for chamado do index.js
+        console.log('\n[WARN] Some images could not be processed. See errors above.');
     } else {
-        console.log('\nTodas as imagens foram normalizadas com sucesso!');
+        console.log('\n[SUCCESS] All images were normalized successfully!');
     }
 }
 

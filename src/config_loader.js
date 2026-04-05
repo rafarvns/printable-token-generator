@@ -9,7 +9,7 @@ function getConfig() {
     try {
       return JSON.parse(fs.readFileSync(configPath, 'utf8'));
     } catch (err) {
-      console.error(`Error parsing config.json: ${err.message}`);
+      console.error(`[ERROR] Parsing config.json failed: ${err.message}`);
       return {};
     }
   }
