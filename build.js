@@ -212,11 +212,7 @@ function buildAll() {
 
     // ── 1. Compile executable from ncc bundle ────────────────────────────────
     const pkgCmd = [
-      'npx pkg',
-      'dist/ncc/index.js',
-      '--assets "dist/ncc/*.afm"',
-      '--assets "dist/ncc/*.icc"',
-      '--assets "dist/ncc/*.json"',
+      'npx pkg .',
       `--target ${target.pkgTarget}`,
       `--output "${exeDest}"`,
       '--compress GZip',
