@@ -1,0 +1,43 @@
+{
+  "PDF_SETTINGS": {
+    "DELETE_ON_START": true,
+    "CR_SPECTRUM_MIN": "1/8,6",
+    "CR_SPECTRUM_MAX": "12,1"
+  },
+  "DOWNLOAD_SETTINGS": {
+    "ENABLE_DOWNLOADS": true,
+    "DELAY_MS": 50,
+    "USE_5ETOOLS_TOKENS": false,
+    "5ETOOLS_GITHUB_SRC_REPOSITORY": "",
+    "5ETOOLS_GITHUB_IMG_REPOSITORY": ""
+  },
+  "TEXT_SETTINGS": {
+    "SIZE_PERCENT": 0.08,
+    "COLOR": "white",
+    "STROKE_COLOR": "black",
+    "MAX_CHARS_PER_LINE": 14,
+    "TOP_OFFSET": 1.2
+  },
+  "TOKEN_SIZES": {
+    "SMALL_IN": 1.56,
+    "MEDIUM_IN": 2.56,
+    "LARGE_IN": 5.06,
+    "HUGE_IN": 7.56,
+    "SMALL_PX": 280,
+    "MEDIUM_PX": 280,
+    "LARGE_PX": 560,
+    "HUGE_PX": 560
+  },
+  "TOKEN_RINGS": {
+    "ENABLED": false,
+    "USE_FROM_RINGS_FOLDER": true,
+    "COLORS": [
+      "#000000"
+    ],
+    "STROKE_PERCENT": 0.05
+  },
+  "IMAGE_ADJUSTMENTS": {
+    "BRIGHTNESS": 1.0,
+    "SATURATION": 1.0
+  }
+}

@@ -1,0 +1,119 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.bump.outputs.new_version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump Version
+        id: bump
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          IFS='.' read -ra ADDR <<< "$VERSION"
+          PATCH=$((ADDR[2] + 1))
+          NEW_VERSION="${ADDR[0]}.${ADDR[1]}.$PATCH"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          
+          # Update package.json
+          node -e "const pkg = require('./package.json'); pkg.version = '$NEW_VERSION'; fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n')"
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.new_version }} [skip ci]"
+          git push
+
+  build:
+    needs: bump-version
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux
+            zip: token-generator-linux.zip
+          - os: windows-latest
+            target: windows
+            zip: token-generator-windows.zip
+          - os: macos-latest
+            target: mac
+            zip: token-generator-mac.zip
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          # Pre-download sharp binaries for all supported platforms so build.js can find them
+          npm install --os=win32 --cpu=x64 sharp
+          npm install --os=linux --cpu=x64 sharp
+          npm install --os=darwin --cpu=x64 sharp
+          npm install --os=darwin --cpu=arm64 sharp
+
+      - name: Build
+        run: node build.js
+        env:
+          BUILD_TARGET: ${{ matrix.target }}
+
+      - name: Zip Artifact
+        shell: bash
+        run: |
+          cd dist/${{ matrix.target }}
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            7z a ../../${{ matrix.zip }} ./* -r
+          else
+            zip -r ../../${{ matrix.zip }} .
+          fi
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.zip }}
+          path: ${{ matrix.zip }}
+
+  release:
+    needs: [bump-version, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.bump-version.outputs.new_version }}
+          name: Release v${{ needs.bump-version.outputs.new_version }}
+          files: |
+            token-generator-linux.zip
+            token-generator-windows.zip
+            token-generator-mac.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
