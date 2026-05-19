@@ -67,9 +67,25 @@ function copiesForCR(cr) {
   return Math.max(1, Math.max(lo, Math.min(hi, copies)));
 }
 
+// Detecta sufixo de cópias no stem do arquivo (ex: "Goblin_x5" → 5, "Dragon x1" → 1)
+// Retorna null se não houver sufixo.
+function parseCopiesFromFilename(stem) {
+  const match = stem.match(/[_\s]x(\d+)$/i);
+  if (!match) return null;
+  const n = parseInt(match[1], 10);
+  return isNaN(n) || n < 1 ? null : n;
+}
+
+// Remove o sufixo de cópias do stem para obter o nome limpo.
+function stripCopiesSuffix(stem) {
+  return stem.replace(/[_\s]x\d+$/i, '');
+}
+
 module.exports = {
   parseCRToNumber,
   parseSpectrumEndpoint,
   getSpectrumBounds,
   copiesForCR,
+  parseCopiesFromFilename,
+  stripCopiesSuffix,
 };

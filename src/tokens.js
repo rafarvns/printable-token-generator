@@ -127,7 +127,8 @@ async function downloadTokensFromBook(bookUrl, bookSource, limit = Infinity) {
     const size = Array.isArray(monster.size) ? monster.size[0] : monster.size;
     const rawCr = parseCr(monster.cr);
     const cr = rawCr.replace(/\s+/g, '').replace('/', '-'); // Limpar CR para ser path-safe
-    const source = (monster.source || bookSource).toUpperCase();
+    const sourceOriginal = monster.source || bookSource;
+    const source = sourceOriginal.toUpperCase();
     
     const folder = ddSizeToFolder(size);
     const safeFileName = name.replace(/[^A-Za-z0-9-_ ]+/g, '').replace(/\s+/g, '_');
@@ -153,9 +154,9 @@ async function downloadTokensFromBook(bookUrl, bookSource, limit = Infinity) {
 
     process.stdout.write(`[INFO] Downloading: ${name} [${size}] CR:${cr} ... `);
 
-    // Preparar sufixo da URL
+    // Preparar sufixo da URL (usa case original do source, ex: LMoP não LMOP)
     const encodedName = encodeURIComponent(name);
-    const apiTokenSuffix = `${source}/${encodedName}.webp`;
+    const apiTokenSuffix = `${sourceOriginal}/${encodedName}.webp`;
     
     let tokenRes = null;
 

@@ -44,8 +44,9 @@ if (!fs.existsSync(configPath)) {
 // ── inquirer and logic ───────────────────────────────────────────────────
 const inquirer = require('inquirer');
 const { downloadTokensFromBook } = require('./src/tokens');
-const { generatePdfs } = require('./src/pdf');
+const { generatePdfs, generateSinglePdf } = require('./src/pdf');
 const { main: normalizeAllImages } = require('./src/image_normalizer');
+const { parseCopiesFromFilename, stripCopiesSuffix } = require('./src/utils');
 
 async function main() {
   // ── Inicializar pastas de Yours se não existirem ─────────────────────────
@@ -213,14 +214,17 @@ async function main() {
 
             await scanDir(res, fromApi, nextSource, nextSize, nextCr);
           } else if (file.name.endsWith('.png') || file.name.endsWith('.jpg') || file.name.endsWith('.jpeg')) {
-            // Melhora a extração do nome: remove prefixo 'token_' se houver, remove extensão, 
-            // e remove o prefixo de CR (ex: '20_' ou '1-8_') buscando o primeiro underscore.
-            const name = file.name
+            const stem = file.name.replace(/\.[^/.]+$/, "");
+
+            // Extrai cópias forçadas do filename (ex: "Goblin_x5" → 5). Null se ausente.
+            const forcedCopies = parseCopiesFromFilename(stem);
+            const cleanStem = forcedCopies != null ? stripCopiesSuffix(stem) : stem;
+
+            const name = cleanStem
               .replace(/^token_/, '')
-              .replace(/\.[^/.]+$/, "")
-              .replace(/^[\d\/\-]+_/, "")  // Somente remove se o prefixo antes do '_' for numérico/CR (ex: '20_' ou '1-8_')
+              .replace(/^[\d\/\-]+_/, "")  // remove prefixo de CR (ex: '20_' ou '1-8_')
               .replace(/_/g, " ");
-            
+
             // Mapeia o nome da pasta de tamanho para o valor esperado pelo pdf.js (tiny, medium, etc)
             let mappedSize = 'medium';
             if (currentSize === 'tiny-small') mappedSize = 'small';
@@ -234,7 +238,8 @@ async function main() {
               size: mappedSize,
               cr: (currentCr || '1').replace('-', '/'), // Volta o '-' para '/' para o cálculo do spectrum
               fromApi: fromApi,
-              source: currentSource || 'yours'
+              source: currentSource || 'yours',
+              forcedCopies, // se não null, ignora CR spectrum
             });
           }
         }
@@ -249,8 +254,18 @@ async function main() {
       if (tokens.length === 0) {
         console.log('[WARN] No valid tokens found in selected sources!');
       } else {
+        const { pdfMode } = await inquirer.prompt([{
+          type: 'list',
+          name: 'pdfMode',
+          message: 'How would you like to generate the PDFs?',
+          choices: [
+            { name: 'Separate PDFs by size (Small, Medium, Large, Huge)', value: 'separate' },
+            { name: 'Single PDF with all tokens (saves paper)', value: 'single' },
+          ]
+        }]);
+
         console.log(`\n[INFO] Generating PDFs for ${tokens.length} tokens...\n`);
-        
+
         // Agrupar por source para criar pastas no output
         const sourcesMap = new Map();
         for (const t of tokens) {
@@ -269,9 +284,15 @@ async function main() {
           }
 
           console.log(`\n[INFO] Processing source: ${source} (${sourceTokens.length} tokens)`);
-          await generatePdfs(sourceTokens, sourceOutDir);
+
+          if (pdfMode === 'single') {
+            const singlePath = path.join(sourceOutDir, 'tokens_all.pdf');
+            await generateSinglePdf(sourceTokens, singlePath);
+          } else {
+            await generatePdfs(sourceTokens, sourceOutDir);
+          }
         }
-        
+
         console.log('\nPDF individual files generated in output sources.');
       }
     } else if (action === 'help') {

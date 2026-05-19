@@ -182,9 +182,22 @@ async function resizeImage(imagePath, targetSize) {
                 }
             });
         }
-        
-        // Redimensiona a imagem e aplica anel
-        // Redimensiona a imagem
+
+        // Verifica se a imagem precisa de upscale antes do resize principal
+        const srcMeta = await sharpInstance.clone().metadata();
+        const srcW = srcMeta.width || 0;
+        const srcH = srcMeta.height || 0;
+        if (srcW < targetSize || srcH < targetSize) {
+            console.log(`  [INFO] Image smaller than target (${srcW}x${srcH} → ${targetSize}x${targetSize}px), upscaling...`);
+            sharpInstance = sharpInstance.resize(targetSize, targetSize, {
+                fit: 'contain',
+                background: { r: 0, g: 0, b: 0, alpha: 0 },
+                kernel: 'lanczos3',
+                withoutEnlargement: false,
+            });
+        }
+
+        // Redimensiona a imagem para as dimensões exatas do alvo
         sharpInstance = sharpInstance
             .resize(targetSize, targetSize, {
                 fit: 'cover',
